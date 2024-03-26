@@ -1,11 +1,12 @@
 import tkinter as tk
 from tkinter import filedialog
 from cryptography.fernet import Fernet
+import os
 
 def generate_key():
     key = Fernet.generate_key()
-    key_entry.delete()
-    key_entry.insert(key.decode())
+    key_entry.delete(0, tk.END)  # Clear the key entry widget
+    key_entry.insert(0, key.decode())  # Insert the generated key into the key entry widget
 
 def process_file(encrypt=True):
     key = key_entry.get()
@@ -19,22 +20,36 @@ def process_file(encrypt=True):
     if not input_file:
         return
     
-    output_file = filedialog.asksaveasfilename(title="Save {}ed file as".format(action.lower()))
-    if not output_file:
-        return
+    if encrypt:
+        output_file = input_file + ".encrypted" #Adds .encryted for the encrypted file
+        key_file = os.path.join(os.path.dirname(input_file), "encryption_key.txt")
+        with open(key_file, 'wb') as kf:
+            kf.write(key.encode()) #Writes key into text file
+    else:
+        if not input_file.endswith(".encrypted"):
+            result_label.config(text="Cannot decrypt. File is not encrypted.", fg="red")
+            return
+        output_file = os.path.splitext(input_file)[0] #Removes encryption extension after decryption
+        key_file = os.path.join(os.path.dirname(input_file), "encryption_key.txt")
+        os.remove(key_file) #Removes key file after decryption
     
     with open(input_file, 'rb') as f:
         file = f.read()
     
     if encrypt:
         processed_data = fernet.encrypt(file)
+        os.remove(input_file) #Removes input file
     else:
         processed_data = fernet.decrypt(file)
-    
+        os.remove(input_file) #removes encrypted file
+
     with open(output_file, 'wb') as f:
         f.write(processed_data)
     
-    result_label.config(text="File {}ed successfully!".format(action), fg="#4CAF50")
+    if encrypt:
+        result_label.config(text="File {}ed successfully! Saved as: {}".format(action, output_file), fg="#4CAF50")
+    else:
+        result_label.config(text="File {}ed successfully!".format(action), fg="#4CAF50")
 
 # Create the main window
 root = tk.Tk()
