@@ -16,13 +16,13 @@ class FileEncryptor:
         self.key_entry = tk.Entry(self.root, font=("Helvetica", 12))
         self.key_entry.pack(pady=10)
 
-        self.generate_key_button = tk.Button(self.root, text="Generate Key", command=self.generate_key, font=("Helvetica", 12), bg='#FFFF00')  # Yellow
+        self.generate_key_button = tk.Button(self.root, text="Generate Key", command=self.generate_key, font=("Helvetica", 12), bg='#FFFF00', relief=tk.FLAT)  # Yellow
         self.generate_key_button.pack(pady=10)
 
-        self.encrypt_button = tk.Button(self.root, text="Encrypt File", command=lambda: self.process_file(True), font=("Helvetica", 12), bg='#98FB98')  # Light green
+        self.encrypt_button = tk.Button(self.root, text="Encrypt File", command=lambda: self.process_file(True), font=("Helvetica", 12), bg='#98FB98', relief=tk.FLAT)  # Light green
         self.encrypt_button.pack(pady=10)
 
-        self.decrypt_button = tk.Button(self.root, text="Decrypt File", command=lambda: self.process_file(False), font=("Helvetica", 12), bg='#FFA07A')  # Light coral
+        self.decrypt_button = tk.Button(self.root, text="Decrypt File", command=lambda: self.process_file(False), font=("Helvetica", 12), bg='#FFA07A', relief=tk.FLAT)  # Light coral
         self.decrypt_button.pack(pady=10)
 
         self.result_label = tk.Label(self.root, text="", bg="lightblue", fg="#212121", font=("Helvetica", 12))
