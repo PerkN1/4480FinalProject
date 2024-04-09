@@ -13,7 +13,7 @@ class FileEncryptor:
         tk.Label(self.root, text="File Encryptor", font=("Helvetica", 16), bg='lightblue').pack(pady=10)
 
         tk.Label(self.root, text="Enter key:", bg='lightblue').pack()
-        self.key_entry = tk.Entry(self.root, font=("Helvetica", 12))
+        self.key_entry = tk.Entry(self.root, font=("Helvetica", 12), relief=tk.FLAT)  # Flat text box
         self.key_entry.pack(pady=10)
 
         self.generate_key_button = tk.Button(self.root, text="Generate Key", command=self.generate_key, font=("Helvetica", 12), bg='#FFFF00', relief=tk.FLAT)  # Yellow
